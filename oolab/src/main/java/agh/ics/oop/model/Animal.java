@@ -13,24 +13,29 @@ public class Animal {
     }
 
     public String toString(){
-        return "(" + position.getX() + "," + position.getY() + ") " + direction;
+        return switch (direction){
+            case NORTH -> "N";
+            case EAST ->  "E";
+            case SOUTH -> "S";
+            case WEST ->  "W";
+        };
     }
 
     public boolean isAt(Vector2d position){
         return this.position.getX() == position.getX() && this.position.getY() == position.getY();
     }
 
-    public void move(MoveDirection direction){
+    public void move(MoveDirection direction, MoveValidator validator){
         switch (direction){
             case RIGHT -> this.direction = this.direction.next();
             case LEFT -> this.direction = this.direction.previous();
             case FORWARD -> {
-                if(position.add(this.direction.toUnitVector()).follows(new Vector2d(0,0)) && position.add(this.direction.toUnitVector()).precedes(new Vector2d(4,4))){
+                if(validator.canMoveTo(position.add(this.direction.toUnitVector()))){
                     position = position.add(this.direction.toUnitVector());
                 }
             }
             case BACKWARD -> {
-                if(position.subtract(this.direction.toUnitVector()).follows(new Vector2d(0,0)) && position.subtract(this.direction.toUnitVector()).precedes(new Vector2d(4,4))){
+                if(validator.canMoveTo(position.subtract(this.direction.toUnitVector()))){
                     position = position.subtract(this.direction.toUnitVector());
                 }
             }
