@@ -25,7 +25,7 @@ public class Animal {
         return this.position.equals(position);
     }
 
-    public void move(MoveDirection direction, MoveValidator validator){
+    public void move(MoveDirection direction, MoveValidator<Vector2d> validator){
         switch (direction){
             case RIGHT -> this.direction = this.direction.next();
             case LEFT -> this.direction = this.direction.previous();
@@ -33,7 +33,7 @@ public class Animal {
         }
     }
 
-    private void moveForwardOrBackward(MoveDirection direction, MoveValidator validator){
+    private void moveForwardOrBackward(MoveDirection direction, MoveValidator<Vector2d> validator){
         Vector2d newPosition;
         if(direction == MoveDirection.FORWARD){
             newPosition = position.add(this.direction.toUnitVector());

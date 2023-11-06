@@ -10,7 +10,7 @@ class AnimalTest {
     void testToString() {
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(2,2));
-        MoveValidator validator = new RectangularMap(4,4);
+        MoveValidator<Vector2d> validator = new RectangularMap(4,4);
 
         animal2.move(MoveDirection.RIGHT,validator);
 
@@ -39,7 +39,7 @@ class AnimalTest {
     void testDirection2(){
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(4,4));
-        MoveValidator validator = new RectangularMap(4,4);
+        MoveValidator<Vector2d> validator = new RectangularMap(4,4);
 
         animal1.move(MoveDirection.RIGHT,validator);
         animal2.move(MoveDirection.LEFT,validator);
@@ -53,7 +53,7 @@ class AnimalTest {
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(4,4));
         Animal animal3 = new Animal(new Vector2d(0,0));
-        MoveValidator validator = new RectangularMap(4,4);
+        MoveValidator<Vector2d> validator = new RectangularMap(4,4);
 
         animal1.move(MoveDirection.FORWARD,validator);
         animal2.move(MoveDirection.FORWARD,validator);
