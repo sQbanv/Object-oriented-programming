@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-public class Animal {
+public class Animal implements WorldElement{
     private MapDirection direction = MapDirection.NORTH;
     private Vector2d position;
 
@@ -12,6 +12,7 @@ public class Animal {
         this.position = position;
     }
 
+    @Override
     public String toString(){
         return switch (direction){
             case NORTH -> "N";
@@ -49,6 +50,7 @@ public class Animal {
         return direction;
     }
 
+    @Override
     public Vector2d getPosition() {
         return position;
     }
