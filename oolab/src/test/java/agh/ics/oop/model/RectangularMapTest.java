@@ -18,15 +18,23 @@ class RectangularMapTest {
     }
 
     @Test
-    void testPlace() {
+    void testPlaceValidPositions() {
+        RectangularMap map = new RectangularMap(4,4);
+        Animal animal1 = new Animal(new Vector2d(2,2));
+        Animal animal2 = new Animal(new Vector2d(2,3));
+
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertDoesNotThrow(() -> map.place(animal2));
+    }
+
+    @Test
+    void testPlaceInvalidPositions(){
         RectangularMap map = new RectangularMap(4,4);
         Animal animal1 = new Animal(new Vector2d(2,2));
         Animal animal2 = new Animal(new Vector2d(2,2));
-        Animal animal3 = new Animal(new Vector2d(2,3));
 
-        assertTrue(map.place(animal1));
-        assertFalse(map.place(animal2));
-        assertTrue(map.place(animal3));
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal2));
     }
 
     @Test
@@ -36,9 +44,13 @@ class RectangularMapTest {
         Animal animal2 = new Animal(new Vector2d(4,4));
         Animal animal3 = new Animal(new Vector2d(1,1));
 
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal3);
+        try {
+            map.place(animal1);
+            map.place(animal2);
+            map.place(animal3);
+        } catch (PositionAlreadyOccupiedException e) {
+            throw new RuntimeException(e);
+        }
 
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.FORWARD);
@@ -54,7 +66,11 @@ class RectangularMapTest {
         RectangularMap map = new RectangularMap(4,4);
         Animal animal1 = new Animal(new Vector2d(2,2));
 
-        map.place(animal1);
+        try {
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(map.isOccupied(new Vector2d(2,2)));
         assertFalse(map.isOccupied(new Vector2d(2,3)));
@@ -66,7 +82,11 @@ class RectangularMapTest {
         Animal animal1 = new Animal(new Vector2d(2,2));
         Animal animal2 = new Animal(new Vector2d(3,3));
 
-        map.place(animal1);
+        try {
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals(map.objectAt(new Vector2d(2,2)),animal1);
         assertNotEquals(map.objectAt(new Vector2d(2,2)),animal2);
@@ -80,9 +100,13 @@ class RectangularMapTest {
         Animal animal2 = new Animal(new Vector2d(4,4));
         Animal animal3 = new Animal(new Vector2d(1,1));
 
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal3);
+        try {
+            map.place(animal1);
+            map.place(animal2);
+            map.place(animal3);
+        } catch (PositionAlreadyOccupiedException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals(map.getElements().size(),3);
         assertEquals(map.getElements().get(0),animal1);
