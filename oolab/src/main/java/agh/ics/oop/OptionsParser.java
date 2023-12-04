@@ -9,11 +9,12 @@ public class OptionsParser {
     public static List<MoveDirection> options(String[] inputValues){
         List<MoveDirection> directions = new ArrayList<>();
         for (String direction : inputValues) {
-            switch (direction){
-                case "f" -> directions.add(MoveDirection.FORWARD);
-                case "b" -> directions.add(MoveDirection.BACKWARD);
-                case "r" -> directions.add(MoveDirection.RIGHT);
-                case "l" -> directions.add(MoveDirection.LEFT);
+            switch (direction.toLowerCase()){
+                case "f", "forward" -> directions.add(MoveDirection.FORWARD);
+                case "b", "backward" -> directions.add(MoveDirection.BACKWARD);
+                case "r", "right" -> directions.add(MoveDirection.RIGHT);
+                case "l", "left" -> directions.add(MoveDirection.LEFT);
+                default -> throw new IllegalArgumentException(direction + " is not legal move specification");
             }
         }
         return directions;
