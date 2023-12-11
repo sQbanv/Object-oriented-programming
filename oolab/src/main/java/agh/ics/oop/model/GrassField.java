@@ -9,6 +9,7 @@ public class GrassField extends AbstractWorldMap{
     protected final Map<Vector2d, Grass> grassFields = new HashMap<>();
 
     public GrassField(int numberOfGrass){
+        super();
         placeGrassOnMap(numberOfGrass);
     }
 
