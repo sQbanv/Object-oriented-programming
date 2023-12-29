@@ -4,14 +4,21 @@ import agh.ics.oop.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+
+import java.util.Optional;
 
 public class SimulationViewPresenter implements MapChangeListener{
-    private static final double CELL_WIDTH = 25;
-    private static final double CELL_HEIGHT = 25;
+    private static final double CELL_WIDTH = 35;
+    private static final double CELL_HEIGHT = 35;
+
     @FXML
     private Label infoLabel;
     @FXML
@@ -38,9 +45,7 @@ public class SimulationViewPresenter implements MapChangeListener{
 
         for (int i = 1; i < numCols + 1; i++){
             for (int j = 1; j < numRows + 1; j++){
-                Label label = new Label(drawObject(new Vector2d(boundary.lowerLeft().getX() + i - 1, boundary.upperRight().getY() - j + 1)));
-                GridPane.setHalignment(label, HPos.CENTER);
-                mapGrid.add(label, i, j);
+                drawObject(new Vector2d(boundary.lowerLeft().getX() + i - 1, boundary.upperRight().getY() - j + 1),i,j);
             }
         }
     }
@@ -61,12 +66,16 @@ public class SimulationViewPresenter implements MapChangeListener{
         }
     }
 
-    private String drawObject(Vector2d currentPosition) {
-        Object object = this.worldMap.objectAt(currentPosition);
-        if (object != null) {
-            return object.toString();
+    private void drawObject(Vector2d currentPosition, int i, int j) {
+        Optional<WorldElement> worldElement = worldMap.objectAt(currentPosition);
+        if (worldElement.isPresent()) {
+            WorldElementBox elementBox = new WorldElementBox(worldElement.get());
+            mapGrid.add(elementBox, i, j);
+        } else {
+            Label label = new Label(" ");
+            GridPane.setHalignment(label, HPos.CENTER);
+            mapGrid.add(label, i, j);
         }
-        return " ";
     }
 
     private void clearGrid() {

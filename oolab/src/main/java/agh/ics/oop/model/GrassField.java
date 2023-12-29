@@ -1,9 +1,7 @@
 package agh.ics.oop.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap{
     protected final Map<Vector2d, Grass> grassFields = new HashMap<>();
@@ -22,15 +20,16 @@ public class GrassField extends AbstractWorldMap{
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return super.objectAt(position) != null ? super.objectAt(position) : grassFields.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return super.objectAt(position).isPresent() ? super.objectAt(position) : Optional.ofNullable(grassFields.get(position));
     }
 
     @Override
     public List<WorldElement> getElements(){
-        List<WorldElement> allElements = super.getElements();
-        allElements.addAll(grassFields.values());
-        return allElements;
+//        List<WorldElement> allElements = super.getElements();
+//        allElements.addAll(grassFields.values());
+//        return allElements;
+        return Stream.concat(animals.values().stream(), grassFields.values().stream()).toList();
     }
 
     @Override
