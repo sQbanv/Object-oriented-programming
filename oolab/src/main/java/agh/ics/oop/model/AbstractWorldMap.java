@@ -58,12 +58,19 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
         return animals.containsKey(position);
     }
 
-    public WorldElement objectAt(Vector2d position){
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position){
+        return Optional.ofNullable(animals.get(position));
     }
 
     public List<WorldElement> getElements(){
         return new LinkedList<>(animals.values());
+    }
+
+    public List<Animal> getOrderedAnimals(){
+        return animals.values().stream()
+                .sorted(Comparator.comparing((WorldElement element) -> element.getPosition().getX())
+                        .thenComparing(element -> element.getPosition().getY()))
+                .toList();
     }
 
     public void addListener(MapChangeListener listener){

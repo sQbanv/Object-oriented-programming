@@ -2,6 +2,9 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RectangularMapTest {
@@ -88,9 +91,9 @@ class RectangularMapTest {
             throw new RuntimeException(e);
         }
 
-        assertEquals(map.objectAt(new Vector2d(2,2)),animal1);
-        assertNotEquals(map.objectAt(new Vector2d(2,2)),animal2);
-        assertNull(map.objectAt(new Vector2d(4, 4)));
+        assertEquals(map.objectAt(new Vector2d(2,2)).get(),animal1);
+        assertNotEquals(map.objectAt(new Vector2d(2,2)).get(),animal2);
+        assertEquals(map.objectAt(new Vector2d(4, 4)), Optional.empty());
     }
 
     @Test
@@ -112,5 +115,29 @@ class RectangularMapTest {
         assertEquals(map.getElements().get(0),animal1);
         assertEquals(map.getElements().get(1),animal2);
         assertEquals(map.getElements().get(2),animal3);
+    }
+
+    @Test
+    void testGetOrderedAnimals(){
+        RectangularMap map = new RectangularMap(6,6);
+        Animal animal1 = new Animal(new Vector2d(1,1));
+        Animal animal2 = new Animal(new Vector2d(1,2));
+        Animal animal3 = new Animal(new Vector2d(2,2));
+        Animal animal4 = new Animal(new Vector2d(2,5));
+        Animal animal5 = new Animal(new Vector2d(4,1));
+        Animal animal6 = new Animal(new Vector2d(5,3));
+
+        try {
+            map.place(animal1);
+            map.place(animal2);
+            map.place(animal3);
+            map.place(animal4);
+            map.place(animal5);
+            map.place(animal6);
+        } catch (PositionAlreadyOccupiedException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertEquals(map.getOrderedAnimals(), List.of(animal1,animal2,animal3,animal4,animal5,animal6));
     }
 }

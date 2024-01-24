@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,15 +25,28 @@ public class World {
         List<Simulation> simulations = new LinkedList<>();
         ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
 
-        for(int i=0; i<3500; i++){
-            GrassField grassField = new GrassField(10);
-            grassField.addListener(consoleMapDisplay);
-            simulations.add(new Simulation(directions,positions,grassField));
-        }
+//        for(int i=0; i<1; i++){
+//            GrassField grassField = new GrassField(10);
+//            grassField.addListener((event,message) -> {
+//                LocalDateTime currentDateTime = LocalDateTime.now();
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//                String formattedDateTime = currentDateTime.format(formatter);
+//                System.out.println(formattedDateTime + " " + message);
+//            });
+//            grassField.addListener(consoleMapDisplay);
+//            grassField.addListener(new FileMapDisplay());
+//            simulations.add(new Simulation(directions,positions,grassField));
+//        }
+
+        GrassField grassField = new GrassField(10);
+        grassField.addListener(consoleMapDisplay);
+        simulations.add(new Simulation(directions,positions,grassField));
 
         SimulationEngine simulationEngine = new SimulationEngine(simulations);
         simulationEngine.runAsyncInThreadPool();
         simulationEngine.awaitSimulationsEnd();
+
+        System.out.println(grassField.getOrderedAnimals());
 
         System.out.println("System stopped working");
     }

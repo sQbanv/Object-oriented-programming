@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -40,11 +41,13 @@ public interface WorldMap<T, P> extends MoveValidator<P> {
      * @param position The position of the animal.
      * @return animal or null if the position is not occupied.
      */
-    WorldElement objectAt(P position);
+    Optional<WorldElement> objectAt(P position);
 
     List<WorldElement> getElements();
 
     Boundary getCurrentBounds();
 
     UUID getID();
+
+    List<Animal> getOrderedAnimals();
 }
